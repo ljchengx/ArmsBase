@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:pv="http://schemas.android.com/apk/res-auto"
+    android:background="#0366d6"
+    android:orientation="vertical">
+
+
+    <me.wangyuwei.particleview.ParticleView
+        android:id="@+id/particleview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        pv:pv_background_color="#2E2E2E"
+        pv:pv_host_text="By"
+        pv:pv_host_text_size="14sp"
+        pv:pv_particle_text="ljchengx"
+        pv:pv_particle_text_size="14sp"
+        pv:pv_text_color="#FFF"
+        pv:pv_text_anim_time="600"
+        pv:pv_spread_anim_time="100"
+        pv:pv_host_text_anim_time="400" />
+
 </LinearLayout>

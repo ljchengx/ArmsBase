@@ -15,22 +15,23 @@
  */
 package me.jessyan.armscomponent.app.mvp.ui.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.jessyan.armscomponent.app.R;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonsdk.utils.Utils;
+import me.wangyuwei.particleview.ParticleView;
 
 /**
  * ================================================
@@ -41,6 +42,9 @@ import me.jessyan.armscomponent.commonsdk.utils.Utils;
  */
 @Route(path = RouterHub.APP_SPLASHACTIVITY)
 public class SplashActivity extends BaseActivity {
+    @BindView(R.id.particleview)
+    ParticleView mParticleview;
+
     @Override
     public void setupActivityComponent(@NonNull AppComponent appComponent) {
 
@@ -53,15 +57,37 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        Observable.timer(2, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Long>() {
-                    @Override
-                    public void accept(Long aLong) throws Exception {
-                        Utils.navigation(SplashActivity.this, RouterHub.APP_MAINACTIVITY);
-                        finish();
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    }
-                });
+//        Observable.timer(2, TimeUnit.SECONDS)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Consumer<Long>() {
+//                    @Override
+//                    public void accept(Long aLong) throws Exception {
+//                        Utils.navigation(SplashActivity.this, RouterHub.APP_MAINACTIVITY);
+//                        finish();
+//                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//                    }
+//                });
+        mParticleview.startAnim();
+        mParticleview.setOnParticleAnimListener(new ParticleView.ParticleAnimListener() {
+            @Override
+            public void onAnimationEnd() {
+                Utils.navigation(SplashActivity.this, RouterHub.APP_MAINACTIVITY);
+                finish();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
     }
 }

@@ -32,4 +32,10 @@ dependencies {
     }
     api rootProject.ext.dependencies["paginate"]
     api rootProject.ext.dependencies["lottie"]
+
+    //启动页第三方
+    api 'me.wangyuwei:ParticleView:1.0.4'
+    //底部导航栏
+    api 'com.github.chaychan:BottomBarLayout:1.2.0'
+
 }
