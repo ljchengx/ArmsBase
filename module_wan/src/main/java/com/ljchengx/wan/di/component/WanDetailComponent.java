@@ -10,6 +10,7 @@ import com.ljchengx.wan.mvp.contract.WanDetailContract;
 
 import com.jess.arms.di.scope.ActivityScope;
 import com.ljchengx.wan.mvp.ui.activity.WanDetailActivity;
+import com.ljchengx.wan.mvp.ui.activity.WanDetailFragment;
 
 
 /**
@@ -23,6 +24,7 @@ import com.ljchengx.wan.mvp.ui.activity.WanDetailActivity;
 @Component(modules = WanDetailModule.class, dependencies = AppComponent.class)
 public interface WanDetailComponent {
     void inject(WanDetailActivity activity);
+    void inject(WanDetailFragment fragment);
 
     @Component.Builder
     interface Builder {

@@ -91,4 +91,5 @@ public interface RouterHub {
 
     String WAN_HOMEACTIVITY = WAN + "/HomeActivity";
     String WAN_DETAILACTIVITY = WAN + "/DetailActivity";
+    String WAN_DETAILFRAGMENT= WAN + "/DetailFragment";
 }

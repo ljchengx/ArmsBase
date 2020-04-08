@@ -2,12 +2,10 @@ package com.ljchengx.wan.di.module;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.di.scope.ActivityScope;
-import com.jess.arms.utils.ArmsUtils;
 import com.ljchengx.wan.app.WanConstants;
 import com.ljchengx.wan.mvp.contract.WanHomeContract;
 import com.ljchengx.wan.mvp.model.WanModel;
@@ -62,6 +60,14 @@ public abstract class MainModule {
                         .build(RouterHub.WAN_DETAILACTIVITY)
                         .withInt(WanConstants.DETAIL_ID, data.getId())
                         .navigation(view.getActivity());
+
+//            ARouter.getInstance()
+//                    .build(RouterHub.WAN_DETAILFRAG
+//                    MENT)
+//                    .withInt(WanConstants.DETAIL_ID, data.getId())
+//                    .navigation(view.getActivity());
+
+
 
         });
         return adapter;

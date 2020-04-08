@@ -1,4 +1,4 @@
-apply from:"../common_component_build.gradle"
+apply from: "../common_component_build.gradle"
 
 android {
     resourcePrefix "wan_" //给 Module 内的资源名增加前缀, 避免资源名冲突, 建议使用 Module 名作为前缀
@@ -10,4 +10,5 @@ dependencies {
     api project(":CommonRes")
     api project(":CommonService")
 
+    implementation 'com.android.support:support-v4:28.0.0'
 }
