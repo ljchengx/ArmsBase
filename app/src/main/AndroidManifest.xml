@@ -18,8 +18,10 @@
         android:label="@string/public_app_name"
         android:networkSecurityConfig="@xml/public_network_security_config"
         android:supportsRtl="true"
-        tools:replace="android:label"
-        android:theme="@style/public_AppTheme">
+        tools:replace="android:label,appComponentFactory"
+        android:appComponentFactory="Armsbase"
+        android:theme="@style/public_AppTheme"
+        >
         <activity
             android:name=".mvp.ui.activity.SplashActivity"
             android:configChanges="orientation|screenSize"

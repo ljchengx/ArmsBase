@@ -18,15 +18,23 @@ package me.jessyan.armscomponent.app.mvp.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.chaychan.library.BottomBarItem;
+import com.chaychan.library.BottomBarLayout;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,14 +59,10 @@ import me.jessyan.armscomponent.commonservice.zhihu.service.ZhihuInfoService;
  */
 @Route(path = RouterHub.APP_MAINACTIVITY)
 public class MainActivity extends BaseActivity {
-    @BindView(R.id.bt_zhihu)
-    Button mZhihuButton;
-    @BindView(R.id.bt_gank)
-    Button mGankButton;
-    @BindView(R.id.bt_gold)
-    Button mGoldButton;
-    @BindView(R.id.bt_wan)
-    Button btWan;
+
+
+    @BindView(R.id.bbl)
+    BottomBarLayout bbl;
 
     @Autowired(name = RouterHub.ZHIHU_SERVICE_ZHIHUINFOSERVICE)
     ZhihuInfoService mZhihuInfoService;
@@ -69,6 +73,9 @@ public class MainActivity extends BaseActivity {
     @Autowired(name = RouterHub.WAN_SERVICE_WANINFOSERVICE)
     WanInfoService mWanInfoService;
 
+    private RotateAnimation mRotateAnimation;
+
+    private List<Fragment> mFragmentList = new ArrayList<>();
 
     private long mPressedTime;
 
@@ -86,45 +93,103 @@ public class MainActivity extends BaseActivity {
     public void initData(@Nullable Bundle savedInstanceState) {
         ARouter.getInstance().inject(this);
         //这里想展示组件向外提供服务的功能, 模拟下组件向宿主提供一些必要的信息, 这里为了简单就直接返回本地数据不请求网络了
-        loadZhihuInfo();
-        loadGankInfo();
-        loadGoldInfo();
+//        loadZhihuInfo();
+//        loadGankInfo();
+//        loadGoldInfo();
         loadWanInfo();
+
+
+        changeFragment(0);
+        initListener();
+
+    }
+
+    private void changeFragment(int currentPosition) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fl_content, mFragmentList.get(currentPosition));
+        transaction.commit();
+    }
+
+    private void initListener() {
+        bbl.setOnItemSelectedListener(new BottomBarLayout.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(BottomBarItem bottomBarItem, int previousPosition, int currentPosition) {
+                changeFragment(currentPosition);
+
+                if (currentPosition == 0) {
+                    //如果是第一个，即首页
+                    if (previousPosition == currentPosition) {
+                        //如果是在原来位置上点击,更换首页图标并播放旋转动画
+                        if (mRotateAnimation != null && !mRotateAnimation.hasEnded()){
+                            //如果当前动画正在执行
+                            return;
+                        }
+
+//                        bottomBarItem.setSelectedIcon(R.mipmap.tab_loading);//更换成加载图标 setResId
+//
+//                        //播放旋转动画
+//                        if (mRotateAnimation == null) {
+//                            mRotateAnimation = new RotateAnimation(0, 360,
+//                                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+//                                    0.5f);
+//                            mRotateAnimation.setDuration(800);
+//                            mRotateAnimation.setRepeatCount(-1);
+//                        }
+//                        ImageView bottomImageView = bottomBarItem.getImageView();
+//                        bottomImageView.setAnimation(mRotateAnimation);
+//                        bottomImageView.startAnimation(mRotateAnimation);//播放旋转动画
+//
+//                        //模拟数据刷新完毕
+//                        mHandler.postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                boolean tabNotChanged = mBottomBarLayout.getCurrentItem() == currentPosition; //是否还停留在当前页签
+//                                bottomBarItem.setSelectedIcon(R.mipmap.tab_home_selected);//更换成首页原来选中图标
+//                                cancelTabLoading(bottomBarItem);
+//                            }
+//                        }, 3000);
+//                        return;
+                    }
+                }
+            }
+        });
     }
 
     private void loadZhihuInfo() {
         //当非集成调试阶段, 宿主 App 由于没有依赖其他组件, 所以使用不了对应组件提供的服务
-        if (mZhihuInfoService == null) {
-            mZhihuButton.setEnabled(false);
-            return;
-        }
-        mZhihuButton.setText(mZhihuInfoService.getInfo().getName());
+//        if (mZhihuInfoService == null) {
+//            mZhihuButton.setEnabled(false);
+//            return;
+//        }
+//        mZhihuButton.setText(mZhihuInfoService.getInfo().getName());
     }
 
     private void loadGankInfo() {
         //当非集成调试阶段, 宿主 App 由于没有依赖其他组件, 所以使用不了对应组件提供的服务
-        if (mGankInfoService == null) {
-            mGankButton.setEnabled(false);
-            return;
-        }
-        mGankButton.setText(mGankInfoService.getInfo().getName());
+//        if (mGankInfoService == null) {
+//            mGankButton.setEnabled(false);
+//            return;
+//        }
+//        mGankButton.setText(mGankInfoService.getInfo().getName());
     }
 
     private void loadGoldInfo() {
         //当非集成调试阶段, 宿主 App 由于没有依赖其他组件, 所以使用不了对应组件提供的服务
-        if (mGoldInfoService == null) {
-            mGoldButton.setEnabled(false);
-            return;
-        }
-        mGoldButton.setText(mGoldInfoService.getInfo().getName());
+//        if (mGoldInfoService == null) {
+//            mGoldButton.setEnabled(false);
+//            return;
+//        }
+//        mGoldButton.setText(mGoldInfoService.getInfo().getName());
     }
 
-    private void loadWanInfo(){
-        if(mWanInfoService ==null){
-            btWan.setEnabled(false);
-            return;
-        }
-        btWan.setText(mWanInfoService.getInfo().getName());
+    private void loadWanInfo() {
+//        if (mWanInfoService == null) {
+//            btWan.setEnabled(false);
+//            return;
+//        }
+//        btWan.setText(mWanInfoService.getInfo().getName());
+        mFragmentList.add(mWanInfoService.getWanFragment());
+
     }
 
     @Override
@@ -141,40 +206,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    /**
-     * 这里注意下在组件的页面中(使用了 R2 的页面)使用 {@link OnClick} 会有概率出现 id 不正确的问题, 使用以下方式解决
-     * <pre>
-     * @OnClick({R2.id.button1, R2.id.button2})
-     * public void Onclick(View view){
-     *      if (view.getId() == R.id.button1){
-     *          ...
-     *      } else if(view.getId() == R.id.button2){
-     *          ...
-     *      }
-     * }
-     * </pre>
-     * <p>
-     * 在注解上使用 R2, 下面使用 R, 并且使用 {@code if else}, 替代 {@code switch}
-     *
-     * @param view
-     */
-    @OnClick({R.id.bt_zhihu, R.id.bt_gank, R.id.bt_gold,R.id.bt_wan})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.bt_zhihu:
-                Utils.navigation(MainActivity.this, RouterHub.ZHIHU_HOMEACTIVITY);
-                break;
-            case R.id.bt_gank:
-                Utils.navigation(MainActivity.this, RouterHub.GANK_HOMEACTIVITY);
-                break;
-            case R.id.bt_gold:
-                Utils.navigation(MainActivity.this, RouterHub.GOLD_HOMEACTIVITY);
-                break;
-            case  R.id.bt_wan:
-                Utils.navigation(MainActivity.this,RouterHub.WAN_HOMEACTIVITY);
-                break;
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

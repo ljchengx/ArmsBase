@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="public_colorPrimary">#37889F</color>
-    <color name="public_colorPrimaryDark">#37889F</color>
+    <color name="public_colorPrimary">#FF53A8F4</color>
+    <color name="public_colorPrimaryDark">#FF53A8F4</color>
     <color name="public_colorAccent">#FF4081</color>
+    <color name="public_mainColor">#FF53A8F4</color>
     <color name="public_white">#FFFFFF</color>
     <color name="public_black">#000000</color>
     <color name="public_color_transparent">#00000000</color>

@@ -1,140 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:background="@color/public_white"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/public_white"
+    android:orientation="vertical">
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animation_view"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/public_height_280dp"
-        android:background="@color/public_colorPrimaryDark"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="animation-lottie-splash.json"
-        app:lottie_loop="true"/>
-
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/fl_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-        <Button
-            android:id="@+id/bt_zhihu"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+    <com.chaychan.library.BottomBarLayout
+        android:id="@+id/bbl"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:background="@color/public_corlor_F3F5F4"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.chaychan.library.BottomBarItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/public_background"
-            tools:text="@string/public_name_zhihu"
-            android:textColor="@color/public_color_959292"
-            android:textSize="@dimen/public_font_24sp"
-            />
+            app:iconNormal="@drawable/tab_home_normal"
+            app:iconSelected="@drawable/tab_home_selected"
+            app:itemMarginTop="-5dp"
+            app:itemText="首页"
+            app:itemTextSize="8sp"
+            app:textColorNormal="@color/public_corlor_515051"
+            app:textColorSelected="@color/public_corlor_D33D3C" />
 
-        <Button
-            android:id="@+id/bt_gank"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+        <com.chaychan.library.BottomBarItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/public_background"
-            tools:text="@string/public_name_gank"
-            android:textColor="@color/public_color_959292"
-            android:textSize="@dimen/public_font_24sp"
-            />
+            app:iconNormal="@drawable/tab_video_normal"
+            app:iconSelected="@drawable/tab_video_selected"
+            app:itemMarginTop="-5dp"
+            app:itemText="体系"
+            app:itemTextSize="8sp"
+            app:textColorNormal="@color/public_corlor_515051"
+            app:textColorSelected="@color/public_corlor_D33D3C" />
 
-        <Button
-            android:id="@+id/bt_wan"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+
+        <com.chaychan.library.BottomBarItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/public_background"
-            tools:text="@string/public_name_wan"
-            android:textColor="@color/public_color_959292"
-            android:textSize="@dimen/public_font_24sp"
-            />
+            app:iconNormal="@drawable/tab_micro_normal"
+            app:iconSelected="@drawable/tab_micro_selected"
+            app:itemMarginTop="-5dp"
+            app:itemText="公众号"
+            app:itemTextSize="8sp"
+            app:textColorNormal="@color/public_corlor_515051"
+            app:textColorSelected="@color/public_corlor_D33D3C" />
 
-        <Button
-            android:id="@+id/bt_gold"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+        <com.chaychan.library.BottomBarItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/public_background"
-            tools:text="@string/public_name_gold"
-            android:textColor="@color/public_color_959292"
-            android:textSize="@dimen/public_font_24sp"
-            android:visibility="gone"
-            />
+            app:iconNormal="@drawable/tab_me_normal"
+            app:iconSelected="@drawable/tab_me_selected"
+            app:itemMarginTop="-5dp"
+            app:itemText="项目"
+            app:itemTextSize="8sp"
+            app:textColorNormal="@color/public_corlor_515051"
+            app:textColorSelected="@color/public_corlor_D33D3C" />
 
-<!--        <com.chaychan.library.BottomBarLayout-->
-<!--            android:id="@+id/bbl"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="45dp"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:gravity="center"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:background="@color/public_corlor_F3F5F4"-->
-<!--            >-->
+        <com.chaychan.library.BottomBarItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:iconNormal="@drawable/tab_me_normal"
+            app:iconSelected="@drawable/tab_me_selected"
+            app:itemMarginTop="-5dp"
+            app:itemText="我的"
+            app:itemTextSize="8sp"
+            app:textColorNormal="@color/public_corlor_515051"
+            app:textColorSelected="@color/public_corlor_D33D3C" />
 
-<!--            <com.chaychan.library.BottomBarItem-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:iconNormal="@drawable/tab_home_normal"-->
-<!--                app:iconSelected="@drawable/tab_home_selected"-->
-<!--                app:itemText="首页"-->
-<!--                app:textColorNormal="@color/public_corlor_515051"-->
-<!--                app:textColorSelected="@color/public_corlor_D33D3C"-->
-<!--                app:itemTextSize="8sp"-->
-<!--                app:itemMarginTop="-5dp"-->
-<!--                />-->
-
-<!--            <com.chaychan.library.BottomBarItem-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:iconNormal="@drawable/tab_video_normal"-->
-<!--                app:iconSelected="@drawable/tab_video_selected"-->
-<!--                app:itemText="视频"-->
-<!--                app:textColorNormal="@color/public_corlor_515051"-->
-<!--                app:textColorSelected="@color/public_corlor_D33D3C"-->
-<!--                app:itemTextSize="8sp"-->
-<!--                app:itemMarginTop="-5dp"-->
-<!--                />-->
-
-
-<!--            <com.chaychan.library.BottomBarItem-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:iconNormal="@drawable/tab_micro_normal"-->
-<!--                app:iconSelected="@drawable/tab_micro_selected"-->
-<!--                app:itemText="微头条"-->
-<!--                app:textColorNormal="@color/public_corlor_515051"-->
-<!--                app:textColorSelected="@color/public_corlor_D33D3C"-->
-<!--                app:itemTextSize="8sp"-->
-<!--                app:itemMarginTop="-5dp"-->
-<!--                />-->
-
-<!--            <com.chaychan.library.BottomBarItem-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:iconNormal="@drawable/tab_me_normal"-->
-<!--                app:iconSelected="@drawable/tab_me_selected"-->
-<!--                app:itemText="我的"-->
-<!--                app:textColorNormal="@color/public_corlor_515051"-->
-<!--                app:textColorSelected="@color/public_corlor_D33D3C"-->
-<!--                app:itemTextSize="8sp"-->
-<!--                app:itemMarginTop="-5dp"-->
-<!--                />-->
-
-<!--        </com.chaychan.library.BottomBarLayout>-->
-
-    </LinearLayout>
-
-
+    </com.chaychan.library.BottomBarLayout>
 
 
 </LinearLayout>
