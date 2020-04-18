@@ -41,11 +41,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.jessyan.armscomponent.app.R;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
-import me.jessyan.armscomponent.commonsdk.utils.Utils;
-import me.jessyan.armscomponent.commonservice.gank.service.GankInfoService;
-import me.jessyan.armscomponent.commonservice.gold.service.GoldInfoService;
 import me.jessyan.armscomponent.commonservice.wan.service.WanInfoService;
-import me.jessyan.armscomponent.commonservice.zhihu.service.ZhihuInfoService;
 
 /**
  * ================================================
@@ -64,12 +60,6 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.bbl)
     BottomBarLayout bbl;
 
-    @Autowired(name = RouterHub.ZHIHU_SERVICE_ZHIHUINFOSERVICE)
-    ZhihuInfoService mZhihuInfoService;
-    @Autowired(name = RouterHub.GANK_SERVICE_GANKINFOSERVICE)
-    GankInfoService mGankInfoService;
-    @Autowired(name = RouterHub.GOLD_SERVICE_GOLDINFOSERVICE)
-    GoldInfoService mGoldInfoService;
     @Autowired(name = RouterHub.WAN_SERVICE_WANINFOSERVICE)
     WanInfoService mWanInfoService;
 
