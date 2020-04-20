@@ -4,6 +4,9 @@ import android.app.Activity;
 
 import com.jess.arms.mvp.IModel;
 import com.jess.arms.mvp.IView;
+import com.ljchengx.wan.mvp.model.entity.BannerData;
+
+import io.reactivex.Observable;
 
 /**
  * @ProjectName: ArmsBase
@@ -17,9 +20,11 @@ public interface FirstPageContract {
 
     interface View extends IView {
         Activity getActivity();
+        void geBannerListSuccess(BannerData bannerData);
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model extends IModel {
+        Observable<BannerData> geBannerList();
     }
 }

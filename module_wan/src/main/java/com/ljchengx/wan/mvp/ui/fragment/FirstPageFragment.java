@@ -1,5 +1,6 @@
 package com.ljchengx.wan.mvp.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -9,8 +10,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -18,11 +21,19 @@ import com.ljchengx.wan.R;
 import com.ljchengx.wan.R2;
 import com.ljchengx.wan.di.component.DaggerFirstPageComponent;
 import com.ljchengx.wan.mvp.contract.FirstPageContract;
+import com.ljchengx.wan.mvp.model.entity.BannerData;
 import com.ljchengx.wan.mvp.presenter.FirstPagePresenter;
+import com.zhouwei.mzbanner.MZBannerView;
+import com.zhouwei.mzbanner.holder.MZHolderCreator;
+import com.zhouwei.mzbanner.holder.MZViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.Observable;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -39,6 +50,8 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     @BindView(R2.id.tool_title)
     TextView mToolTitle;
     Unbinder unbinder;
+    @BindView(R2.id.banner)
+    MZBannerView mBanner;
 
     public static FirstPageFragment newInstance() {
         FirstPageFragment fragment = new FirstPageFragment();
@@ -63,6 +76,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         mToolTitle.setText("这是Wan首页");
+        mPresenter.requestDailyList();
     }
 
     /**
@@ -117,6 +131,18 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mBanner.pause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mBanner.start();
+    }
+
+    @Override
     public void showMessage(@NonNull String message) {
         checkNotNull(message);
         ArmsUtils.snackbarText(message);
@@ -145,5 +171,39 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void geBannerListSuccess(BannerData bannerData) {
+
+        List<String> dataList = new ArrayList<>();
+        for (BannerData.DataBean data : bannerData.getData()
+        ) {
+            dataList.add(data.getImagePath());
+        }
+
+        mBanner.setPages(dataList, (MZHolderCreator<BannerViewHolder>) () -> new BannerViewHolder());
+    }
+
+    public static class BannerViewHolder implements MZViewHolder<String> {
+        private ImageView mImageView;
+
+        @Override
+        public View createView(Context context) {
+            // 返回页面布局
+            View view = LayoutInflater.from(context).inflate(R.layout.wan_banner_item, null);
+            mImageView = view.findViewById(R.id.banner_image);
+            return view;
+        }
+
+        @Override
+        public void onBind(Context context, int position, String data) {
+            // 数据绑定
+
+
+            Observable.just(data)
+                    .subscribe(s -> Glide.with(context).load(s).into(mImageView));
+//            ArmsUtils.makeText(context, data);
+        }
     }
 }

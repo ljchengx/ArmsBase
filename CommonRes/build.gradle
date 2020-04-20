@@ -38,6 +38,7 @@ dependencies {
     //底部导航栏
     api 'com.github.chaychan:BottomBarLayout:1.2.0'
 
-
+    //banner
+    api 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
 
 }
