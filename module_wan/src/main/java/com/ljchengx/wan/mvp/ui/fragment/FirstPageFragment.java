@@ -7,6 +7,8 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,19 +23,19 @@ import com.ljchengx.wan.R;
 import com.ljchengx.wan.R2;
 import com.ljchengx.wan.di.component.DaggerFirstPageComponent;
 import com.ljchengx.wan.mvp.contract.FirstPageContract;
+import com.ljchengx.wan.mvp.model.entity.ArticleBean;
 import com.ljchengx.wan.mvp.model.entity.BannerData;
 import com.ljchengx.wan.mvp.presenter.FirstPagePresenter;
+import com.ljchengx.wan.mvp.ui.adapter.FirstPageAdapter;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.reactivex.Observable;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -45,13 +47,22 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * Created by ljchengx on 04/08/2020 19:18
  * ================================================
  */
-public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implements FirstPageContract.View {
+public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implements FirstPageContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R2.id.tool_title)
     TextView mToolTitle;
     Unbinder unbinder;
     @BindView(R2.id.banner)
     MZBannerView mBanner;
+
+    int currentPage = 0;
+    @BindView(R2.id.rv_list)
+    RecyclerView mRvList;
+
+    @Inject
+    FirstPageAdapter mAdapter;
+    @BindView(R2.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public static FirstPageFragment newInstance() {
         FirstPageFragment fragment = new FirstPageFragment();
@@ -77,6 +88,17 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     public void initData(@Nullable Bundle savedInstanceState) {
         mToolTitle.setText("这是Wan首页");
         mPresenter.requestDailyList();
+        mPresenter.requestGetArticleList(currentPage);
+        initRecyclerView();
+        mRvList.setAdapter(mAdapter);
+
+        mAdapter.setOnLoadMoreListener(() -> {
+            mPresenter.requestGetArticleList(currentPage);
+        }, mRvList);
+    }
+
+    private void initRecyclerView() {
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     /**
@@ -122,12 +144,12 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
     @Override
     public void showLoading() {
-
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -175,35 +197,46 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
     @Override
     public void geBannerListSuccess(BannerData bannerData) {
-
-        List<String> dataList = new ArrayList<>();
-        for (BannerData.DataBean data : bannerData.getData()
-        ) {
-            dataList.add(data.getImagePath());
-        }
-
-        mBanner.setPages(dataList, (MZHolderCreator<BannerViewHolder>) () -> new BannerViewHolder());
+        mBanner.setPages(bannerData.getData(), (MZHolderCreator<BannerViewHolder>) () -> new BannerViewHolder());
+        mBanner.start();
     }
 
-    public static class BannerViewHolder implements MZViewHolder<String> {
+    @Override
+    public void getArticleListSuccess(ArticleBean articleBean) {
+        if (currentPage == 0) {
+            mAdapter.setNewData(articleBean.getData().getDatas());
+        } else {
+            mAdapter.addData(articleBean.getData().getDatas());
+        }
+        currentPage++;
+        mAdapter.loadMoreComplete();
+        mAdapter.setEnableLoadMore(mAdapter.getData().size() < articleBean.getData().getTotal());
+
+    }
+
+    @Override
+    public void onRefresh() {
+        currentPage = 1;
+        mPresenter.requestGetArticleList(currentPage);
+    }
+
+    public static class BannerViewHolder implements MZViewHolder<BannerData.DataBean> {
         private ImageView mImageView;
+        private TextView mTextView;
 
         @Override
         public View createView(Context context) {
             // 返回页面布局
             View view = LayoutInflater.from(context).inflate(R.layout.wan_banner_item, null);
             mImageView = view.findViewById(R.id.banner_image);
+            mTextView = view.findViewById(R.id.tv_describe);
             return view;
         }
 
         @Override
-        public void onBind(Context context, int position, String data) {
-            // 数据绑定
-
-
-            Observable.just(data)
-                    .subscribe(s -> Glide.with(context).load(s).into(mImageView));
-//            ArmsUtils.makeText(context, data);
+        public void onBind(Context context, int position, BannerData.DataBean data) {
+            Glide.with(context).load(data.getImagePath()).into(mImageView);
+            mTextView.setText(data.getTitle());
         }
     }
 }

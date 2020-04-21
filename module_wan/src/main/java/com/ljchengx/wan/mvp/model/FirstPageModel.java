@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import com.ljchengx.wan.mvp.contract.FirstPageContract;
 import com.ljchengx.wan.mvp.model.api.service.WanService;
+import com.ljchengx.wan.mvp.model.entity.ArticleBean;
 import com.ljchengx.wan.mvp.model.entity.BannerData;
 
 import io.reactivex.Observable;
@@ -46,5 +47,10 @@ public class FirstPageModel extends BaseModel implements FirstPageContract.Model
     @Override
     public Observable<BannerData> geBannerList() {
         return mRepositoryManager.obtainRetrofitService(WanService.class).geBannerList();
+    }
+
+    @Override
+    public Observable<ArticleBean> getArticleList(int page) {
+        return mRepositoryManager.obtainRetrofitService(WanService.class).getArticleList(page);
     }
 }

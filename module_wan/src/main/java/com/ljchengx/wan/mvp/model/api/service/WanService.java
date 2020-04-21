@@ -1,5 +1,6 @@
 package com.ljchengx.wan.mvp.model.api.service;
 
+import com.ljchengx.wan.mvp.model.entity.ArticleBean;
 import com.ljchengx.wan.mvp.model.entity.BannerData;
 import com.ljchengx.wan.mvp.model.entity.WxarticleBean;
 import com.ljchengx.wan.mvp.model.entity.WxarticleDetailBean;
@@ -37,4 +38,11 @@ public interface WanService {
     @GET("/banner/json")
     Observable<BannerData> geBannerList(
     );
+
+    @Headers({DOMAIN_NAME_HEADER + WAN_DOMAIN_NAME})
+    @GET("/article/list/{page}/json")
+    Observable<ArticleBean> getArticleList(
+            @Path("page") int page
+    );
+
 }

@@ -5,6 +5,7 @@ import dagger.Component;
 
 import com.jess.arms.di.component.AppComponent;
 
+import com.ljchengx.wan.di.module.FirstPageArticeModule;
 import com.ljchengx.wan.di.module.FirstPageModule;
 import com.ljchengx.wan.mvp.contract.FirstPageContract;
 
@@ -20,7 +21,7 @@ import com.ljchengx.wan.mvp.ui.fragment.FirstPageFragment;
  * ================================================
  */
 @FragmentScope
-@Component(modules = FirstPageModule.class, dependencies = AppComponent.class)
+@Component(modules = {FirstPageModule.class, FirstPageArticeModule.class}, dependencies = AppComponent.class)
 public interface FirstPageComponent {
     void inject(FirstPageFragment fragment);
 

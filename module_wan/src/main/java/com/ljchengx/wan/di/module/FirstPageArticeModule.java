@@ -24,16 +24,19 @@ import dagger.Provides;
  * ================================================
  */
 @Module
-public abstract class FirstPageModule {
-
-//    @Binds
-//    abstract FirstPageContract.Model bindFirstPageModel(FirstPageModel model);
+public abstract class FirstPageArticeModule {
 
     @FragmentScope
     @Provides
-    static List<BannerData.DataBean> provideList() {
+    static List<ArticleBean.DataBean.DatasBean> provideList(){
         return new ArrayList<>();
     }
 
 
+    @FragmentScope
+    @Provides
+    static FirstPageAdapter provideFirstPageAdapter(FirstPageContract.View view, List<ArticleBean.DataBean.DatasBean> list) {
+        FirstPageAdapter adapter = new FirstPageAdapter(R.layout.fragment_first_page_item, list);
+        return adapter;
+    }
 }
