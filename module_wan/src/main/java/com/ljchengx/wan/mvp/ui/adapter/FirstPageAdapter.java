@@ -1,7 +1,10 @@
 package com.ljchengx.wan.mvp.ui.adapter;
 
 import android.support.annotation.Nullable;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.jess.arms.utils.ArmsUtils;
 import com.ljchengx.wan.R;
 import com.ljchengx.wan.mvp.model.entity.ArticleBean;
 
@@ -19,7 +22,7 @@ import me.jessyan.armscomponent.commonres.adapter.BaseViewHolder;
  * @Author: ljcheng
  * @CreateDate: 2020/4/21 19:25
  */
-public class FirstPageAdapter extends BaseAdapter<ArticleBean.DataBean.DatasBean, BaseViewHolder>{
+public class FirstPageAdapter extends BaseAdapter<ArticleBean.DataBean.DatasBean, BaseViewHolder> {
 
     public FirstPageAdapter(int layoutResId, @Nullable List<ArticleBean.DataBean.DatasBean> data) {
         super(layoutResId, data);
@@ -29,5 +32,15 @@ public class FirstPageAdapter extends BaseAdapter<ArticleBean.DataBean.DatasBean
     protected void convert(BaseViewHolder helper, ArticleBean.DataBean.DatasBean item) {
         Observable.just(item.getAuthor())
                 .subscribe(s -> helper.setText(R.id.tv_author, s));
+        helper.setText(R.id.tv_lable, item.getSuperChapterName() + ":" + item.getChapterName());
+        helper.setText(R.id.tv_lable, item.getSuperChapterName());
+        helper.setText(R.id.tx_content, item.getDesc());
+        helper.setText(R.id.tv_time, item.getNiceDate());
+        if(!ArmsUtils.isEmpty(item.getEnvelopePic())){
+            ImageView imageView = helper.getView(R.id.iv_thumbnail);
+            Glide.with(mContext).load(item.getEnvelopePic()).into(imageView);
+        }
+
+
     }
 }

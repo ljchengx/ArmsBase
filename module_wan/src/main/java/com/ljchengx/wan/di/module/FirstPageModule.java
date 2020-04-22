@@ -26,8 +26,8 @@ import dagger.Provides;
 @Module
 public abstract class FirstPageModule {
 
-//    @Binds
-//    abstract FirstPageContract.Model bindFirstPageModel(FirstPageModel model);
+    @Binds
+    abstract FirstPageContract.Model bindFirstPageModel(FirstPageModel model);
 
     @FragmentScope
     @Provides
