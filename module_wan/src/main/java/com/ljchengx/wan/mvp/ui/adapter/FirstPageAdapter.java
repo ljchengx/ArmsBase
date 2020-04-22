@@ -36,6 +36,8 @@ public class FirstPageAdapter extends BaseAdapter<ArticleBean.DataBean.DatasBean
         helper.setText(R.id.tv_lable, item.getSuperChapterName());
         helper.setText(R.id.tx_content, item.getDesc());
         helper.setText(R.id.tv_time, item.getNiceDate());
+        helper.setText(R.id.tx_title, item.getTitle());
+
         if(!ArmsUtils.isEmpty(item.getEnvelopePic())){
             ImageView imageView = helper.getView(R.id.iv_thumbnail);
             Glide.with(mContext).load(item.getEnvelopePic()).into(imageView);

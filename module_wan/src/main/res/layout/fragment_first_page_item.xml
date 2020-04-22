@@ -56,13 +56,31 @@
     </ImageView>
 
     <TextView
-        android:id="@+id/tx_content"
+        android:id="@+id/tx_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxWidth="350dp"
-        android:text="这里是内容描述这里是内容描述这里是内容描述这里是内容描述这里是内容描述这里是内容描述"
+        android:text="这是标题"
         app:layout_constraintStart_toEndOf="@+id/iv_thumbnail"
         app:layout_constraintTop_toTopOf="@+id/tv_isHomeStation"
+        android:textSize="@dimen/public_font_16sp"
+        android:textColor="@color/public_black"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_thumbnail"
+        >
+    </TextView>
+
+
+    <TextView
+        android:id="@+id/tx_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="150dp"
+        android:layout_marginTop="5dp"
+        android:text="这里是内容描述这里是内容描述这里是内容描述这里是内容描述"
+        android:maxEms="60"
+        android:ellipsize="end"
+        app:layout_constraintStart_toEndOf="@+id/iv_thumbnail"
+        app:layout_constraintTop_toTopOf="@+id/tx_title"
         app:layout_constraintBottom_toBottomOf="@+id/iv_thumbnail"
         >
 
