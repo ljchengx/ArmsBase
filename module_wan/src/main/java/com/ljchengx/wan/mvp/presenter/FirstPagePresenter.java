@@ -1,8 +1,6 @@
 package com.ljchengx.wan.mvp.presenter;
 
 import android.app.Application;
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
 
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.FragmentScope;

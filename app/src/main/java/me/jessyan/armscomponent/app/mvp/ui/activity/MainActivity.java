@@ -16,13 +16,10 @@
 package me.jessyan.armscomponent.app.mvp.ui.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.view.View;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.animation.RotateAnimation;
-import android.widget.Button;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -38,7 +35,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.annotations.Nullable;
 import me.jessyan.armscomponent.app.R;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 import me.jessyan.armscomponent.commonservice.wan.service.WanInfoService;

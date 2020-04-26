@@ -45,6 +45,8 @@
 
     //paddingBottom
     <dimen name="public_pad_bottom_20dp">20dp</dimen>
+    <dimen name="public_pad_bottom_10dp">10dp</dimen>
+
 
     //marginTop
     <dimen name="public_mar_top_3dp">3dp</dimen>

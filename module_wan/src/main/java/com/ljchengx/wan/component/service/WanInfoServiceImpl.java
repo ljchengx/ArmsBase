@@ -1,15 +1,12 @@
 package com.ljchengx.wan.component.service;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.jess.arms.utils.ArmsUtils;
-import com.ljchengx.wan.R;
 import com.ljchengx.wan.mvp.ui.fragment.FirstPageFragment;
 
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
-import me.jessyan.armscomponent.commonservice.wan.bean.WanInfo;
 import me.jessyan.armscomponent.commonservice.wan.service.WanInfoService;
 
 /**

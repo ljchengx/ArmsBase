@@ -1,6 +1,7 @@
 package com.ljchengx.wan.mvp.ui.adapter;
 
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.ljchengx.wan.R;
 import com.ljchengx.wan.mvp.model.entity.WxarticleDetailBean;

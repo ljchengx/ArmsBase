@@ -22,6 +22,8 @@ android {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true
     }
     buildTypes {
         debug {
@@ -50,6 +52,7 @@ android {
     }
 }
 
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     if (!isBuildModule.toBoolean()) {
@@ -69,7 +72,4 @@ dependencies {
     }
     //test
     testImplementation rootProject.ext.dependencies["junit"]
-    debugImplementation rootProject.ext.dependencies["canary-debug"]
-    releaseImplementation rootProject.ext.dependencies["canary-release"]
-    testImplementation rootProject.ext.dependencies["canary-release"]
 }

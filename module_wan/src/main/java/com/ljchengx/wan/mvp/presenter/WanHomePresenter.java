@@ -1,9 +1,9 @@
 package com.ljchengx.wan.mvp.presenter;
 
 import android.app.Application;
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
 
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.di.scope.ActivityScope;

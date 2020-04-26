@@ -3,10 +3,11 @@ package com.ljchengx.wan.mvp.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jess.arms.base.BaseActivity;
@@ -43,7 +44,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * ================================================
  */
 @Route(path = RouterHub.WAN_HOMEACTIVITY)
-public class WanHomeActivity extends BaseActivity<WanHomePresenter> implements WanHomeContract.View,SwipeRefreshLayout.OnRefreshListener{
+public class WanHomeActivity extends BaseActivity<WanHomePresenter> implements WanHomeContract.View, SwipeRefreshLayout.OnRefreshListener{
 
 
     @BindView(R2.id.recyclerView)
