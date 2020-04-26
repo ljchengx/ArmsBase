@@ -37,7 +37,7 @@ dependencies {
     api rootProject.ext.dependencies["annotations"]
     api rootProject.ext.dependencies["nineoldandroids"]
 
-    api 'com.squareup.picasso:picasso:2.71828'
+    api rootProject.ext.dependencies["picasso"]
 
 
     //启动页第三方
