@@ -28,7 +28,7 @@ ext {
             "support-v4"              : "androidx.legacy:legacy-support-v4:1.0.0",
             "cardview-v7"             : 'androidx.cardview:cardview:1.0.0',
             "annotations"             : "androidx.annotation:annotation:1.0.0",
-            "recyclerview-v7"         : "androidx.recyclerview:recyclerview:1.0.0",
+            "recyclerview-v7"         : "androidx.recyclerview:recyclerview:1.1.0",
 
             "constraint"              : 'androidx.constraintlayout:constraintlayout:1.1.3',
 

@@ -16,7 +16,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.bumptech.glide.Glide;
+import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.holder.Holder;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -28,9 +30,7 @@ import com.ljchengx.wan.mvp.model.entity.ArticleBean;
 import com.ljchengx.wan.mvp.model.entity.BannerData;
 import com.ljchengx.wan.mvp.presenter.FirstPagePresenter;
 import com.ljchengx.wan.mvp.ui.adapter.FirstPageAdapter;
-import com.zhouwei.mzbanner.MZBannerView;
-import com.zhouwei.mzbanner.holder.MZHolderCreator;
-import com.zhouwei.mzbanner.holder.MZViewHolder;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -53,8 +53,7 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     @BindView(R2.id.tool_title)
     TextView mToolTitle;
     Unbinder unbinder;
-    @BindView(R2.id.banner)
-    MZBannerView mBanner;
+
 
     int currentPage = 0;
     @BindView(R2.id.rv_list)
@@ -64,6 +63,9 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     FirstPageAdapter mAdapter;
     @BindView(R2.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R2.id.banner)
+    ConvenientBanner mBanner;
+
 
     public static FirstPageFragment newInstance() {
         FirstPageFragment fragment = new FirstPageFragment();
@@ -154,15 +156,15 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-//        mBanner.pause();
+    public void onStart() {
+        super.onStart();
+
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-//        mBanner.start();
+    public void onStop() {
+        super.onStop();
+
     }
 
     @Override
@@ -198,8 +200,54 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
     @Override
     public void geBannerListSuccess(BannerData bannerData) {
-//        mBanner.setPages(bannerData.getData(), (MZHolderCreator<BannerViewHolder>) () -> new BannerViewHolder());
-//        mBanner.start();
+
+
+        mBanner.setPages(new CBViewHolderCreator() {
+            @Override
+            public LocalImageHolderView  createHolder(View itemView) {
+                return new LocalImageHolderView(itemView) ;
+            }
+
+            @Override
+            public int getLayoutId() {
+                return R.layout.wan_banner_item;
+            }
+        },bannerData.getData());
+        mBanner.startTurning();
+    }
+
+    public class LocalImageHolderView extends Holder<BannerData.DataBean>{
+
+        private ImageView imageView;
+
+        public LocalImageHolderView(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        protected void initView(View itemView) {
+            imageView = itemView.findViewById(R.id.banner_image);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        }
+
+        @Override
+        public void updateUI(BannerData.DataBean data) {
+            Picasso.get().load(data.getImagePath()).into(imageView);
+        }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mBanner.startTurning();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBanner.stopTurning();
     }
 
     @Override
@@ -221,23 +269,5 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
         mPresenter.requestGetArticleList(currentPage);
     }
 
-    public static class BannerViewHolder implements MZViewHolder<BannerData.DataBean> {
-        private ImageView mImageView;
-        private TextView mTextView;
 
-        @Override
-        public View createView(Context context) {
-            // 返回页面布局
-            View view = LayoutInflater.from(context).inflate(R.layout.wan_banner_item, null);
-            mImageView = view.findViewById(R.id.banner_image);
-            mTextView = view.findViewById(R.id.tv_describe);
-            return view;
-        }
-
-        @Override
-        public void onBind(Context context, int position, BannerData.DataBean data) {
-            Glide.with(context).load(data.getImagePath()).into(mImageView);
-            mTextView.setText(data.getTitle());
-        }
-    }
 }
