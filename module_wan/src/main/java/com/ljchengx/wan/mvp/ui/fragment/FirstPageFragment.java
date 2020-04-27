@@ -1,6 +1,5 @@
 package com.ljchengx.wan.mvp.ui.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -16,9 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
+import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -32,11 +33,15 @@ import com.ljchengx.wan.mvp.presenter.FirstPagePresenter;
 import com.ljchengx.wan.mvp.ui.adapter.FirstPageAdapter;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.jessyan.armscomponent.commonres.adapter.BaseAdapter;
+import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -55,7 +60,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     Unbinder unbinder;
 
 
-    int currentPage = 0;
     @BindView(R2.id.rv_list)
     RecyclerView mRvList;
 
@@ -66,6 +70,9 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     @BindView(R2.id.banner)
     ConvenientBanner mBanner;
 
+    private int currentPage = 0;
+
+    private List<ArticleBean.DataBean.DatasBean> mDatas ;
 
     public static FirstPageFragment newInstance() {
         FirstPageFragment fragment = new FirstPageFragment();
@@ -94,6 +101,19 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
         mPresenter.requestGetArticleList(currentPage);
         initRecyclerView();
         mRvList.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseAdapter adapter, View view, int position) {
+
+                ARouter.getInstance()
+                        .build(RouterHub.WEB_WEBACTIVITY)
+                        .withString("web_title", mDatas.get(position).getTitle())
+                        .withString("web_url", mDatas.get(position).getLink())
+                        .navigation(getActivity());
+
+            }
+        });
 
         mAdapter.setOnLoadMoreListener(() -> {
             mPresenter.requestGetArticleList(currentPage);
@@ -204,19 +224,31 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
         mBanner.setPages(new CBViewHolderCreator() {
             @Override
-            public LocalImageHolderView  createHolder(View itemView) {
-                return new LocalImageHolderView(itemView) ;
+            public LocalImageHolderView createHolder(View itemView) {
+                return new LocalImageHolderView(itemView);
             }
 
             @Override
             public int getLayoutId() {
                 return R.layout.wan_banner_item;
             }
-        },bannerData.getData());
+        }, bannerData.getData())
+                .setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+
+                        BannerData.DataBean bean = bannerData.getData().get(position);
+                        ARouter.getInstance()
+                                .build(RouterHub.WEB_WEBACTIVITY)
+                                .withString("web_title", bean.getTitle())
+                                .withString("web_url", bean.getUrl())
+                                .navigation(getActivity());
+                    }
+                });
         mBanner.startTurning();
     }
 
-    public class LocalImageHolderView extends Holder<BannerData.DataBean>{
+    public class LocalImageHolderView extends Holder<BannerData.DataBean> {
 
         private ImageView imageView;
 
@@ -257,6 +289,8 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
         } else {
             mAdapter.addData(articleBean.getData().getDatas());
         }
+        mDatas = articleBean.getData().getDatas();
+
         currentPage++;
         mAdapter.loadMoreComplete();
         mAdapter.setEnableLoadMore(mAdapter.getData().size() < articleBean.getData().getTotal());

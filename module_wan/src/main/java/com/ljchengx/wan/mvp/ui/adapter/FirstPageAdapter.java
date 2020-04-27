@@ -39,19 +39,20 @@ public class FirstPageAdapter extends BaseAdapter<ArticleBean.DataBean.DatasBean
         Observable.just(item.getAuthor())
                 .subscribe(s -> helper.setText(R.id.tv_author, s));
 
-        String lable = item.getSuperChapterName() + "：" + item.getChapterName();
+        String lable = item.getSuperChapterName() + "·" + item.getChapterName();
         helper.setText(R.id.tv_lable, lable);
-        helper.setText(R.id.tv_lable, item.getSuperChapterName());
-        Observable.just(Html.fromHtml(item.getDesc()))
-                .subscribe(s -> helper.setText(R.id.tx_content, s));
+
+        if(!StringUtils.isEmpty(item.getDesc())){
+            helper.getView(R.id.tx_content).setVisibility(View.VISIBLE);
+            Observable.just(Html.fromHtml(item.getDesc()))
+                    .subscribe(s -> helper.setText(R.id.tx_content, s));
+        }
         helper.setText(R.id.tv_time, item.getNiceDate());
         helper.setText(R.id.tx_title, item.getTitle());
 
         ImageView imageView = helper.getView(R.id.iv_thumbnail);
         if(!StringUtils.isEmpty(item.getEnvelopePic())){
             imageView.setVisibility(View.VISIBLE);
-
-
             Picasso.get()
                     .load(item.getEnvelopePic())
                     .resize(100, 100)

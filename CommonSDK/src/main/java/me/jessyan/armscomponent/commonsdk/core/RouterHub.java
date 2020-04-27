@@ -47,6 +47,7 @@ public interface RouterHub {
     String GANK = "/gank";//干货集中营组件
     String GOLD = "/gold";//稀土掘金组件
     String WAN="/wan"; //玩组件
+    String WEB="/web"; //web组件
 
     /**
      * 服务组件, 用于给每个组件暴露特有的服务
@@ -92,4 +93,9 @@ public interface RouterHub {
     String WAN_HOMEACTIVITY = WAN + "/HomeActivity";
     String WAN_DETAILACTIVITY = WAN + "/DetailActivity";
     String WAN_DETAILFRAGMENT= WAN + "/DetailFragment";
+
+    /**
+     * web分组
+     */
+    String WEB_WEBACTIVITY = WEB + "/WebActivity";
 }
