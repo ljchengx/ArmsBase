@@ -79,5 +79,6 @@ public class FirstPageAdapter extends BaseAdapter<ArticleBean.DataBean.DatasBean
             helper.getView(R.id.iv_new).setVisibility(View.GONE);
         }
 
+        helper.addOnClickListener(R.id.ll_collect);
     }
 }

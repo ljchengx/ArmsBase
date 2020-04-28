@@ -116,6 +116,17 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
             }
         });
 
+        mAdapter.setOnItemChildClickListener(new BaseAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseAdapter adapter, View view, int position) {
+
+                    if(view.getId() == R.id.ll_collect) {
+                        showMessage(String.valueOf(mAdapter.getItem(position).isCollect()));
+                    }
+            }
+        });
+
+
 
         mSwipeRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
