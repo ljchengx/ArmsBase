@@ -7,19 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.bigkoo.convenientbanner.ConvenientBanner;
-import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
-import com.bigkoo.convenientbanner.holder.Holder;
-import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -31,6 +27,12 @@ import com.ljchengx.wan.mvp.model.entity.ArticleBean;
 import com.ljchengx.wan.mvp.model.entity.BannerData;
 import com.ljchengx.wan.mvp.presenter.FirstPagePresenter;
 import com.ljchengx.wan.mvp.ui.adapter.FirstPageAdapter;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -40,6 +42,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.bingoogolapple.bgabanner.BGABanner;
 import me.jessyan.armscomponent.commonres.adapter.BaseAdapter;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
 
@@ -53,7 +56,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * Created by ljchengx on 04/08/2020 19:18
  * ================================================
  */
-public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implements FirstPageContract.View, SwipeRefreshLayout.OnRefreshListener {
+public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implements FirstPageContract.View {
 
     @BindView(R2.id.tool_title)
     TextView mToolTitle;
@@ -65,14 +68,13 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
     @Inject
     FirstPageAdapter mAdapter;
-    @BindView(R2.id.swipeRefreshLayout)
-    SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R2.id.banner)
-    ConvenientBanner mBanner;
-
+    BGABanner mBanner;
+    @BindView(R2.id.swipeRefreshLayout)
+    SmartRefreshLayout mSwipeRefreshLayout;
     private int currentPage = 0;
 
-    private List<ArticleBean.DataBean.DatasBean> mDatas ;
+    private List<ArticleBean.DataBean.DatasBean> mDatas;
 
     public static FirstPageFragment newInstance() {
         FirstPageFragment fragment = new FirstPageFragment();
@@ -99,7 +101,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
         mToolTitle.setText("这是Wan首页");
         mPresenter.requestDailyList();
         mPresenter.requestGetArticleList(currentPage);
-        initRecyclerView();
         mRvList.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
@@ -115,14 +116,23 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
             }
         });
 
-        mAdapter.setOnLoadMoreListener(() -> {
-            mPresenter.requestGetArticleList(currentPage);
-        }, mRvList);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                currentPage = 0;
+                mPresenter.requestGetArticleList(currentPage);
+            }
+        });
+
+        mSwipeRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                mPresenter.requestGetArticleList(currentPage);
+            }
+        });
     }
 
-    private void initRecyclerView() {
-        swipeRefreshLayout.setOnRefreshListener(this);
-    }
 
     /**
      * 通过此方法可以使 Fragment 能够与外界做一些交互和通信, 比如说外部的 Activity 想让自己持有的某个 Fragment 对象执行一些方法,
@@ -165,27 +175,6 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
     }
 
-    @Override
-    public void showLoading() {
-        swipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void hideLoading() {
-        swipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-    }
 
     @Override
     public void showMessage(@NonNull String message) {
@@ -222,65 +211,23 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
     public void geBannerListSuccess(BannerData bannerData) {
 
 
-        mBanner.setPages(new CBViewHolderCreator() {
-            @Override
-            public LocalImageHolderView createHolder(View itemView) {
-                return new LocalImageHolderView(itemView);
-            }
+        mBanner.setAdapter((BGABanner.Adapter<RelativeLayout, BannerData.DataBean>) (banner, relativeLayout, model, position) -> {
+            ImageView imageView = relativeLayout.findViewById(R.id.banner_image);
+            Picasso.get().load(model.getImagePath()).into(imageView);
+            TextView textView = relativeLayout.findViewById(R.id.tv_describe);
+            textView.setText(model.getTitle());
+        });
 
-            @Override
-            public int getLayoutId() {
-                return R.layout.wan_banner_item;
-            }
-        }, bannerData.getData())
-                .setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
+        mBanner.setDelegate((BGABanner.Delegate<RelativeLayout, BannerData.DataBean>) (banner, itemView, model, position) -> ARouter.getInstance()
+                .build(RouterHub.WEB_WEBACTIVITY)
+                .withString("web_title", model.getTitle())
+                .withString("web_url", model.getUrl())
+                .navigation(getActivity()));
 
-                        BannerData.DataBean bean = bannerData.getData().get(position);
-                        ARouter.getInstance()
-                                .build(RouterHub.WEB_WEBACTIVITY)
-                                .withString("web_title", bean.getTitle())
-                                .withString("web_url", bean.getUrl())
-                                .navigation(getActivity());
-                    }
-                });
-        mBanner.startTurning();
+        mBanner.setData(R.layout.wan_banner_item, bannerData.getData(), null);
+
     }
 
-    public class LocalImageHolderView extends Holder<BannerData.DataBean> {
-
-        private ImageView imageView;
-
-        public LocalImageHolderView(View itemView) {
-            super(itemView);
-        }
-
-        @Override
-        protected void initView(View itemView) {
-            imageView = itemView.findViewById(R.id.banner_image);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-
-        }
-
-        @Override
-        public void updateUI(BannerData.DataBean data) {
-            Picasso.get().load(data.getImagePath()).into(imageView);
-        }
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mBanner.startTurning();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mBanner.stopTurning();
-    }
 
     @Override
     public void getArticleListSuccess(ArticleBean articleBean) {
@@ -290,17 +237,11 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
             mAdapter.addData(articleBean.getData().getDatas());
         }
         mDatas = articleBean.getData().getDatas();
-
         currentPage++;
-        mAdapter.loadMoreComplete();
-        mAdapter.setEnableLoadMore(mAdapter.getData().size() < articleBean.getData().getTotal());
 
-    }
+        mSwipeRefreshLayout.setEnableLoadMoreWhenContentNotFull(mAdapter.getData().size() < articleBean.getData().getTotal());
+        mSwipeRefreshLayout.closeHeaderOrFooter();
 
-    @Override
-    public void onRefresh() {
-        currentPage = 1;
-        mPresenter.requestGetArticleList(currentPage);
     }
 
 

@@ -25,13 +25,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:iconNormal="@drawable/tab_home_normal"
-            app:iconSelected="@drawable/tab_home_selected"
-            app:itemMarginTop="-5dp"
+            app:iconNormal="@drawable/ic_svg_home"
+            app:iconSelected="@drawable/ic_svg_home_selected"
+            app:itemMarginTop="2dp"
             app:itemText="首页"
             app:itemTextSize="8sp"
             app:textColorNormal="@color/public_corlor_515051"
-            app:textColorSelected="@color/public_corlor_D33D3C" />
+            app:textColorSelected="@color/public_mainColor" />
 
         <com.chaychan.library.BottomBarItem
             android:layout_width="0dp"

@@ -10,6 +10,13 @@ import com.jess.arms.integration.cache.IntelligentCache;
 import com.jess.arms.utils.ArmsUtils;
 
 import com.ljchengx.wan.BuildConfig;
+import com.ljchengx.wan.R;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshInitializer;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 
@@ -40,6 +47,7 @@ public class AppLifecyclesImpl implements AppLifecycles {
 
         RetrofitUrlManager.getInstance().putDomain(WAN_DOMAIN_NAME,WAn_DOMAIN);
         //当所有模块集成到宿主 App 时, 在 App 中已经执行了以下代码
+
     }
 
     @Override
