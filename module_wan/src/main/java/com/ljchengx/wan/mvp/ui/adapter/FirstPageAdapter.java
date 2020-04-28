@@ -6,12 +6,9 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.ljchengx.wan.R;
 import com.ljchengx.wan.mvp.model.entity.ArticleBean;
 import com.squareup.picasso.Picasso;
-
 
 import java.util.List;
 
@@ -36,13 +33,18 @@ public class FirstPageAdapter extends BaseAdapter<ArticleBean.DataBean.DatasBean
 
     @Override
     protected void convert(BaseViewHolder helper, ArticleBean.DataBean.DatasBean item) {
-        Observable.just(item.getAuthor())
-                .subscribe(s -> helper.setText(R.id.tv_author, s));
+
+        if (!StringUtils.isEmpty(item.getAuthor())) {
+            helper.getView(R.id.tv_author).setVisibility(View.VISIBLE);
+            Observable.just(item.getAuthor())
+                    .subscribe(s -> helper.setText(R.id.tv_author, s));
+        }
+
 
         String lable = item.getSuperChapterName() + "·" + item.getChapterName();
         helper.setText(R.id.tv_lable, lable);
 
-        if(!StringUtils.isEmpty(item.getDesc())){
+        if (!StringUtils.isEmpty(item.getDesc())) {
             helper.getView(R.id.tx_content).setVisibility(View.VISIBLE);
             Observable.just(Html.fromHtml(item.getDesc()))
                     .subscribe(s -> helper.setText(R.id.tx_content, s));
@@ -51,13 +53,13 @@ public class FirstPageAdapter extends BaseAdapter<ArticleBean.DataBean.DatasBean
         helper.setText(R.id.tx_title, item.getTitle());
 
         ImageView imageView = helper.getView(R.id.iv_thumbnail);
-        if(!StringUtils.isEmpty(item.getEnvelopePic())){
+        if (!StringUtils.isEmpty(item.getEnvelopePic())) {
             imageView.setVisibility(View.VISIBLE);
             Picasso.get()
                     .load(item.getEnvelopePic())
                     .resize(100, 100)
                     .into((ImageView) helper.getView(R.id.iv_thumbnail));
-        }else {
+        } else {
             imageView.setVisibility(View.GONE);
         }
 
