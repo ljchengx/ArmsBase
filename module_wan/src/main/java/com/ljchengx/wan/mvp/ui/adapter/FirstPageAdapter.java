@@ -73,6 +73,11 @@ public class FirstPageAdapter extends BaseAdapter<ArticleBean.DataBean.DatasBean
             helper.getView(R.id.tv_isHomeStation).setVisibility(View.GONE);
         }
 
+        if(item.getNiceDate().contains("前")){
+            helper.getView(R.id.iv_new).setVisibility(View.VISIBLE);
+        }else{
+            helper.getView(R.id.iv_new).setVisibility(View.GONE);
+        }
 
     }
 }
