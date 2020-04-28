@@ -36,8 +36,9 @@ public class FirstPageAdapter extends BaseAdapter<ArticleBean.DataBean.DatasBean
 
         if (!StringUtils.isEmpty(item.getAuthor())) {
             helper.getView(R.id.tv_author).setVisibility(View.VISIBLE);
-            Observable.just(item.getAuthor())
-                    .subscribe(s -> helper.setText(R.id.tv_author, s));
+            helper.setText(R.id.tv_author, item.getAuthor());
+        } else {
+            helper.getView(R.id.tv_author).setVisibility(View.GONE);
         }
 
 
@@ -48,6 +49,8 @@ public class FirstPageAdapter extends BaseAdapter<ArticleBean.DataBean.DatasBean
             helper.getView(R.id.tx_content).setVisibility(View.VISIBLE);
             Observable.just(Html.fromHtml(item.getDesc()))
                     .subscribe(s -> helper.setText(R.id.tx_content, s));
+        } else {
+            helper.getView(R.id.tx_content).setVisibility(View.GONE);
         }
         helper.setText(R.id.tv_time, item.getNiceDate());
         helper.setText(R.id.tx_title, item.getTitle());
@@ -61,6 +64,13 @@ public class FirstPageAdapter extends BaseAdapter<ArticleBean.DataBean.DatasBean
                     .into((ImageView) helper.getView(R.id.iv_thumbnail));
         } else {
             imageView.setVisibility(View.GONE);
+        }
+
+        if (item.getTags().size() != 0) {
+            helper.getView(R.id.tv_isHomeStation).setVisibility(View.VISIBLE);
+            helper.setText(R.id.tv_isHomeStation, item.getTags().get(0).getName());
+        }else{
+            helper.getView(R.id.tv_isHomeStation).setVisibility(View.GONE);
         }
 
 

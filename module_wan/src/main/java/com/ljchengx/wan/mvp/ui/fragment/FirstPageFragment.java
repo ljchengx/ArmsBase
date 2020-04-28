@@ -108,8 +108,8 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
 
                 ARouter.getInstance()
                         .build(RouterHub.WEB_WEBACTIVITY)
-                        .withString("web_title", mDatas.get(position).getTitle())
-                        .withString("web_url", mDatas.get(position).getLink())
+                        .withString("web_title", mAdapter.getItem(position).getTitle())
+                        .withString("web_url", mAdapter.getItem(position).getLink())
                         .navigation(getActivity());
 
             }
