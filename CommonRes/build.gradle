@@ -55,4 +55,6 @@ dependencies {
     api 'cn.bingoogolapple:bga-banner:3.0.0@aar'
 
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
+
+
 }

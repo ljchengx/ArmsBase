@@ -48,6 +48,7 @@ public interface RouterHub {
     String GOLD = "/gold";//稀土掘金组件
     String WAN="/wan"; //玩组件
     String WEB="/web"; //web组件
+    String MINE ="/mine"; //个人信息组件
 
     /**
      * 服务组件, 用于给每个组件暴露特有的服务
@@ -98,4 +99,10 @@ public interface RouterHub {
      * web分组
      */
     String WEB_WEBACTIVITY = WEB + "/WebActivity";
+
+    /**
+     * 个人信息分组
+     */
+    String MINE_SERVICE_MINEINFOSERVICE = MINE + SERVICE + "/WanInfoService";
+
 }

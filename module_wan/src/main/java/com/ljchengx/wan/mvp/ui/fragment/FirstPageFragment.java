@@ -103,29 +103,19 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
         mPresenter.requestGetArticleList(currentPage);
         mRvList.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseAdapter adapter, View view, int position) {
+        mAdapter.setOnItemClickListener((adapter, view, position) -> ARouter.getInstance()
+                .build(RouterHub.WEB_WEBACTIVITY)
+                .withString("web_title", mAdapter.getItem(position).getTitle())
+                .withString("web_url", mAdapter.getItem(position).getLink())
+                .navigation(getActivity()));
 
-                ARouter.getInstance()
-                        .build(RouterHub.WEB_WEBACTIVITY)
-                        .withString("web_title", mAdapter.getItem(position).getTitle())
-                        .withString("web_url", mAdapter.getItem(position).getLink())
-                        .navigation(getActivity());
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
 
-            }
-        });
-
-        mAdapter.setOnItemChildClickListener(new BaseAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseAdapter adapter, View view, int position) {
-
-                    if(view.getId() == R.id.ll_collect) {
-                        ImageView imageView =  view.findViewById(R.id.iv_collect);
-                        showMessage(String.valueOf(mAdapter.getItem(position).isCollect()));
-                        imageView.setImageResource(R.drawable.ic_svg_collected);
-                    }
-            }
+                if(view.getId() == R.id.ll_collect) {
+                    ImageView imageView = view.findViewById(R.id.iv_collect);
+                    showMessage(String.valueOf(mAdapter.getItem(position).isCollect()));
+                    imageView.setImageResource(R.drawable.ic_svg_collected);
+                }
         });
 
 

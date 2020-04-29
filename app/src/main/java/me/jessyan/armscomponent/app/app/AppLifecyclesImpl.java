@@ -20,6 +20,7 @@ import android.content.Context;
 
 import com.jess.arms.base.delegate.AppLifecycles;
 import com.jess.arms.utils.ArmsUtils;
+import com.xuexiang.xui.XUI;
 
 import io.reactivex.annotations.NonNull;
 import me.jessyan.armscomponent.app.BuildConfig;

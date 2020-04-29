@@ -49,4 +49,6 @@ dependencies {
         exclude module: 'support-annotations'
     }
     api rootProject.ext.dependencies["retrofit-url-manager"]
+
+    api  'com.github.xuexiangjys:XUI:1.1.3'
 }

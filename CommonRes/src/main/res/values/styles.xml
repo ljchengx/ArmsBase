@@ -1,7 +1,7 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="public_AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="public_AppTheme" parent="XUITheme.Phone">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/public_colorPrimary</item>
         <item name="colorPrimaryDark">@color/public_colorPrimaryDark</item>
@@ -34,5 +34,11 @@
         <item name="android:windowContentOverlay">@null</item>
         <!--是否模糊-->
         <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="ScrollViewStyle" tools:ignore="ResourceName">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:overScrollMode">never</item>
     </style>
 </resources>

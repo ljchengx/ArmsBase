@@ -1,2 +1,3 @@
 include ':app', ':CommonSDK', ':CommonService', ':CommonRes','module_wan'
 include ':module_web'
+include ':module_mine'

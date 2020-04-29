@@ -39,6 +39,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
 import me.jessyan.armscomponent.app.R;
 import me.jessyan.armscomponent.commonsdk.core.RouterHub;
+import me.jessyan.armscomponent.commonservice.wan.service.MineInfoService;
 import me.jessyan.armscomponent.commonservice.wan.service.WanInfoService;
 
 /**
@@ -60,6 +61,9 @@ public class MainActivity extends BaseActivity {
 
     @Autowired(name = RouterHub.WAN_SERVICE_WANINFOSERVICE)
     WanInfoService mWanInfoService;
+
+    @Autowired(name=RouterHub.MINE_SERVICE_MINEINFOSERVICE)
+    MineInfoService mMineInfoService;
 
     private RotateAnimation mRotateAnimation;
 
@@ -85,7 +89,7 @@ public class MainActivity extends BaseActivity {
 //        loadGankInfo();
 //        loadGoldInfo();
         loadWanInfo();
-
+        loadMineInfo();
 
         changeFragment(0);
         initListener();
@@ -178,6 +182,10 @@ public class MainActivity extends BaseActivity {
 //        btWan.setText(mWanInfoService.getInfo().getName());
         mFragmentList.add(mWanInfoService.getWanFragment());
 
+    }
+
+    private void loadMineInfo(){
+        mFragmentList.add(mMineInfoService.getMineFragment());
     }
 
     @Override
