@@ -121,7 +121,9 @@ public class FirstPageFragment extends BaseFragment<FirstPagePresenter> implemen
             public void onItemChildClick(BaseAdapter adapter, View view, int position) {
 
                     if(view.getId() == R.id.ll_collect) {
+                        ImageView imageView =  view.findViewById(R.id.iv_collect);
                         showMessage(String.valueOf(mAdapter.getItem(position).isCollect()));
+                        imageView.setImageResource(R.drawable.ic_svg_collected);
                     }
             }
         });
